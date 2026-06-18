@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ユーザー登録</title>
+</head>
+<body>
+    <h1>ユーザー登録</h1>
+
+    {% if error %}
+        <p style="color: red;">
+            {{ error }}
+        </p>
+    {% endif %}
+
+    <form method="post">
+        <div>
+            <label for="name">名前</label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                required
+            >
+        </div>
+
+        <div>
+            <label for="email">メールアドレス</label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                required
+            >
+        </div>
+
+        <button type="submit">登録する</button>
+    </form>
+
+    <p>
+        <a href="{{ url_for('index') }}">一覧へ戻る</a>
+    </p>
+</body>
+</html>

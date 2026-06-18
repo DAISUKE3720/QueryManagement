@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}
+問い合わせ一覧 | 問い合わせ管理
+{% endblock %}
+
+{% block content %}
+<div class="page-heading">
+    <div>
+        <h1>問い合わせ一覧</h1>
+
+        <p class="page-description">
+            現在登録されている問い合わせを表示します。
+        </p>
+    </div>
+
+    <a
+        class="button"
+        href="{{ url_for('create_ticket') }}"
+    >
+        新規登録
+    </a>
+</div>
+
+<div class="table-container">
+    <table class="ticket-table">
+        <thead>
+            <tr>
+                <th>問い合わせ番号</th>
+                <th>件名</th>
+                <th>カテゴリ</th>
+                <th>優先度</th>
+                <th>ステータス</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for ticket in tickets %}
+                <tr>
+                    <td>
+                        {{ ticket.id }}
+                    </td>
+
+                    <td>
+                        {{ ticket.title }}
+                    </td>
+
+                    <td>
+                        {{ ticket.category }}
+                    </td>
+
+                    <td>
+                        {{ ticket.priority }}
+                    </td>
+
+                    <td>
+                        {{ ticket.status }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<p class="notice">
+    現在はサンプルデータを表示しています。
+</p>
+{% endblock %}

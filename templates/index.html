@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ユーザー一覧</title>
+</head>
+<body>
+    <h1>ユーザー一覧</h1>
+
+    <p>
+        <a href="{{ url_for('create') }}">新規登録</a>
+    </p>
+
+    {% if users %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>名前</th>
+                    <th>メールアドレス</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user["id"] }}</td>
+                        <td>{{ user["name"] }}</td>
+                        <td>{{ user["email"] }}</td>
+                        <td>
+                            <a href="{{ url_for('edit', user_id=user['id']) }}">
+                                編集
+                            </a>
+
+                            <form
+                                action="{{ url_for('delete', user_id=user['id']) }}"
+                                method="post"
+                                style="display: inline;"
+                            >
+                                <button
+                                    type="submit"
+                                    onclick="return confirm('本当に削除しますか？');"
+                                >
+                                    削除
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>ユーザーはまだ登録されていません。</p>
+    {% endif %}
+</body>
+</html>

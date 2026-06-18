@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>タスク一覧</title>
+</head>
+<body>
+    <header>
+        <p>
+            ログイン中：
+            {{ session["username"] }}
+        </p>
+
+        <form
+            action="{{ url_for('logout') }}"
+            method="post"
+        >
+            <button type="submit">ログアウト</button>
+        </form>
+    </header>
+
+    <h1>タスク一覧</h1>
+
+    <p>
+        <a href="{{ url_for('task_create') }}">
+            タスクを登録する
+        </a>
+    </p>
+
+    <p>
+        <a href="{{ url_for('create') }}">
+            担当者を登録する
+        </a>
+    </p>
+
+    <form method="get">
+        <div>
+            <label for="status">ステータス</label>
+
+            <select id="status" name="status">
+                <option value="">すべて</option>
+
+                <option
+                    value="未着手"
+                    {% if selected_status == "未着手" %}
+                        selected
+                    {% endif %}
+                >
+                    未着手
+                </option>
+
+                <option
+                    value="対応中"
+                    {% if selected_status == "対応中" %}
+                        selected
+                    {% endif %}
+                >
+                    対応中
+                </option>
+
+                <option
+                    value="完了"
+                    {% if selected_status == "完了" %}
+                        selected
+                    {% endif %}
+                >
+                    完了
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <label for="priority">優先度</label>
+
+            <select id="priority" name="priority">
+                <option value="">すべて</option>
+
+                <option
+                    value="高"
+                    {% if selected_priority == "高" %}
+                        selected
+                    {% endif %}
+                >
+                    高
+                </option>
+
+                <option
+                    value="中"
+                    {% if selected_priority == "中" %}
+                        selected
+                    {% endif %}
+                >
+                    中
+                </option>
+
+                <option
+                    value="低"
+                    {% if selected_priority == "低" %}
+                        selected
+                    {% endif %}
+                >
+                    低
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <label for="assignee_id">担当者</label>
+
+            <select id="assignee_id" name="assignee_id">
+                <option value="">すべて</option>
+
+                {% for user in users %}
+                    <option
+                        value="{{ user['id'] }}"
+                        {% if selected_assignee_id == user['id'] | string %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ user["name"] }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="keyword">キーワード</label>
+
+            <input
+                type="text"
+                id="keyword"
+                name="keyword"
+                value="{{ selected_keyword }}"
+            >
+        </div>
+
+        <button type="submit">検索</button>
+
+        <a href="{{ url_for('task_list') }}">
+            条件をクリア
+        </a>
+    </form>
+
+    {% if tasks %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>タイトル</th>
+                    <th>内容</th>
+                    <th>ステータス</th>
+                    <th>優先度</th>
+                    <th>担当者</th>
+                    <th>登録日時</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for task in tasks %}
+                    <tr>
+                        <td>{{ task["id"] }}</td>
+                        <td>{{ task["title"] }}</td>
+                        <td>{{ task["description"] }}</td>
+                        <td>{{ task["status"] }}</td>
+                        <td>{{ task["priority"] }}</td>
+
+                        <td>
+                            {% if task["assignee_name"] %}
+                                {{ task["assignee_name"] }}
+                            {% else %}
+                                未設定
+                            {% endif %}
+                        </td>
+
+                        <td>{{ task["created_at"] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>条件に一致するタスクはありません。</p>
+    {% endif %}
+</body>
+</html>

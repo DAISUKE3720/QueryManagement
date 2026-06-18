@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% block title %}
+            問い合わせ管理アプリ
+        {% endblock %}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <a class="logo" href="{{ url_for('index') }}">
+                問い合わせ管理
+            </a>
+
+            <nav class="navigation">
+                <a href="{{ url_for('index') }}">
+                    トップ
+                </a>
+
+                <a href="{{ url_for('create_ticket') }}">
+                    問い合わせ登録
+                </a>
+
+                <a href="{{ url_for('ticket_list') }}">
+                    問い合わせ一覧
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="message">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>タスク登録</title>
+</head>
+<body>
+    <h1>タスク登録</h1>
+
+    {% if error %}
+        <p style="color: red;">
+            {{ error }}
+        </p>
+    {% endif %}
+
+    <form method="post">
+        <div>
+            <label for="title">タイトル</label>
+
+            <input
+                type="text"
+                id="title"
+                name="title"
+                required
+            >
+        </div>
+
+        <div>
+            <label for="description">内容</label>
+
+            <textarea
+                id="description"
+                name="description"
+            ></textarea>
+        </div>
+
+        <div>
+            <label for="status">ステータス</label>
+
+            <select id="status" name="status">
+                <option value="未着手">未着手</option>
+                <option value="対応中">対応中</option>
+                <option value="完了">完了</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="priority">優先度</label>
+
+            <select id="priority" name="priority">
+                <option value="高">高</option>
+                <option value="中" selected>中</option>
+                <option value="低">低</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="assignee_id">担当者</label>
+
+            <select id="assignee_id" name="assignee_id">
+                <option value="">未設定</option>
+
+                {% for user in users %}
+                    <option value="{{ user['id'] }}">
+                        {{ user["name"] }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit">登録する</button>
+    </form>
+
+    <p>
+        <a href="{{ url_for('task_list') }}">
+            一覧へ戻る
+        </a>
+    </p>
+</body>
+</html>
