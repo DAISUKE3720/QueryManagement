@@ -156,7 +156,7 @@ def task_create():
                 priority,
                 assignee_id
             )
-            VALUES (&s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s)
             """,
             (
                 title,
